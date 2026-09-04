@@ -1,0 +1,55 @@
+---
+import { notificationEmail, confirmationEmail } from "../../lib/email.js";
+
+const kontakt = {
+  type: "kontakt",
+  name: "Sabine Weber",
+  email: "sabine.weber@example.de",
+  company: "Weber Malerbetrieb",
+  message:
+    "Hallo, wir hätten gern eine neue Website mit Online-Terminbuchung.\nWann könnten wir kurz telefonieren?",
+};
+const termin = {
+  type: "termin",
+  name: "Sabine Weber",
+  email: "sabine.weber@example.de",
+  leistung: "Vor-Ort-Termin",
+  wunschtermin: "Do 11., 10:30 Uhr",
+  message: "",
+};
+
+const items = [
+  { label: "Benachrichtigung an EAN (Anfrage)", ...notificationEmail(kontakt) },
+  { label: "Bestätigung an den Kunden (Anfrage)", ...confirmationEmail(kontakt) },
+  { label: "Benachrichtigung an EAN (Terminanfrage)", ...notificationEmail(termin) },
+  { label: "Bestätigung an den Kunden (Terminanfrage)", ...confirmationEmail(termin) },
+];
+---
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>E-Mail-Vorschau — EAN Agency</title>
+<style is:inline>
+  body { margin: 0; background: #08080a; color: #f2eee4; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+  a.back { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: #d9b45b; text-decoration: none; }
+  h1 { font-size: 1.6rem; letter-spacing: -0.02em; margin: 1.2rem 0 0.4rem; }
+  p.lead { color: #9a9488; margin: 0 0 2.5rem; }
+  .item { margin-bottom: 2.5rem; }
+  .item h2 { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: #9a9488; margin: 0 0 0.6rem; }
+  .item .subj { font-size: 0.82rem; color: #d9b45b; margin: 0 0 0.7rem; }
+  iframe { width: 100%; height: 620px; border: 1px solid rgba(217,180,91,0.18); background: #050506; display: block; }
+</style>
+
+<div class="wrap">
+  <a class="back" href="/">← EAN Agency</a>
+  <h1>E-Mail-Vorschau</h1>
+  <p class="lead">So sehen die automatischen E-Mails aus, sobald der eigene Versand (Brevo) aktiv ist.</p>
+
+  {items.map((it) => (
+    <div class="item">
+      <h2>{it.label}</h2>
+      <p class="subj">Betreff: {it.subject}</p>
+      <iframe srcdoc={it.html} title={it.label} loading="lazy"></iframe>
+    </div>
+  ))}
+</div>
