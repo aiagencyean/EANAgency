@@ -163,3 +163,5 @@
 </footer>
 
 <script is:inline>document.getElementById("y").textContent = new Date().getFullYear();</script>
+
+<script is:inline>if("scrollRestoration" in history)history.scrollRestoration="manual";if(!location.hash)window.scrollTo(0,0);window.addEventListener("pageshow",function(){if(!location.hash)window.scrollTo(0,0);});</script>

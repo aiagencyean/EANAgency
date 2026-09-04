@@ -132,3 +132,9 @@ const { title, heading, lead } = Astro.props;
     <a href="mailto:aiagencyean@outlook.com">aiagencyean@outlook.com</a>
   </div>
 </footer>
+
+<script is:inline>
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  if (!location.hash) window.scrollTo(0, 0);
+  window.addEventListener("pageshow", function () { if (!location.hash) window.scrollTo(0, 0); });
+</script>
