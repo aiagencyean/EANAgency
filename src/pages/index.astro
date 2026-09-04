@@ -734,11 +734,19 @@
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.getElementById("y").textContent = new Date().getFullYear();
 
-  /* ---- immer oben starten (kein Wiederherstellen der alten Scroll-Position) ---- */
+  /* ---- immer oben starten (kein Wiederherstellen der alten Scroll-Position, kein Hash-Sprung) ---- */
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-  function toTop() { if (!location.hash) window.scrollTo(0, 0); }
+  function toTop() {
+    if (location.hash) {
+      try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+    }
+    window.scrollTo(0, 0);
+  }
   toTop();
   window.addEventListener("pageshow", toTop);
+  window.addEventListener("load", toTop);
+  requestAnimationFrame(toTop);
+  setTimeout(toTop, 60);
 
   /* ---- intro lock + hero word reveal ---- */
   var body = document.body;

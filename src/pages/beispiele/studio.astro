@@ -143,4 +143,4 @@
 
 <footer class="site">LUMA Studio · Musterstadt · <a href="/beispiele" style="border-bottom:1px solid currentColor">Demo von EAN Agency</a></footer>
 
-<script is:inline>if("scrollRestoration" in history)history.scrollRestoration="manual";if(!location.hash)window.scrollTo(0,0);window.addEventListener("pageshow",function(){if(!location.hash)window.scrollTo(0,0);});</script>
+<script is:inline>if("scrollRestoration" in history)history.scrollRestoration="manual";function ean_toTop(){if(location.hash){try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}}window.scrollTo(0,0);}ean_toTop();window.addEventListener("pageshow",ean_toTop);window.addEventListener("load",ean_toTop);requestAnimationFrame(ean_toTop);setTimeout(ean_toTop,60);</script>
