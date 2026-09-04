@@ -1,0 +1,142 @@
+---
+---
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trattoria da Marco — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Work+Sans:wght@300;400;500&display=swap" />
+
+<style is:inline>
+  :root {
+    --green: #1d2b21; --green-2: #16211a; --cream: #f6efe2; --cream-2: #ece0c9;
+    --terra: #c56a3f; --terra-d: #a9552e; --ink: #24291f; --muted: #6b6656;
+    --serif: "Fraunces", Georgia, "Times New Roman", serif;
+    --sans: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--sans); font-weight: 300; color: var(--ink); background: var(--cream); line-height: 1.65; padding-top: 2.5rem; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+
+  .demobar { position: fixed; top: 0; left: 0; right: 0; z-index: 999; height: 2.5rem; background: #08080A; color: #D9B45B; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0 1rem; font-family: ui-monospace, Menlo, monospace; font-size: 0.66rem; }
+  .demobar b { color: #F7E7B6; }
+  .demobar a { border-bottom: 1px solid #D9B45B; padding-bottom: 1px; white-space: nowrap; }
+  .demobar span:last-child { display: flex; gap: 1rem; }
+  @media (max-width: 640px) { .demobar { font-size: 0.58rem; } .demobar b { display: none; } }
+
+  .wrap { max-width: 1060px; margin-inline: auto; padding-inline: clamp(1.25rem, 5vw, 3rem); }
+  .btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--terra); color: #fff; font-family: var(--sans); font-weight: 500; font-size: 0.9rem; letter-spacing: 0.04em; padding: 0.95rem 1.7rem; border-radius: 2px; transition: background 0.2s; }
+  .btn:hover { background: var(--terra-d); }
+  .btn--cream { background: transparent; color: var(--cream); border: 1px solid rgba(246,239,226,0.4); }
+  .btn--cream:hover { background: var(--cream); color: var(--green); }
+
+  header.site { background: var(--green); color: var(--cream); }
+  header.site .wrap { display: flex; align-items: center; justify-content: space-between; padding-block: 1.2rem; }
+  .logo { font-family: var(--serif); font-weight: 600; font-size: 1.3rem; letter-spacing: 0.02em; }
+  header.site nav { display: flex; gap: 1.9rem; font-size: 0.88rem; color: #cdd8cd; }
+  header.site nav a:hover { color: #fff; }
+  @media (max-width: 760px) { header.site nav { display: none; } }
+
+  .hero { background: var(--green); color: var(--cream); position: relative; overflow: hidden; }
+  .hero::after { content: ""; position: absolute; right: -12%; top: -20%; width: 55%; height: 160%; background: radial-gradient(circle, rgba(197,106,63,0.35), transparent 62%); }
+  .hero .wrap { padding-block: clamp(4rem, 11vw, 7.5rem); position: relative; z-index: 1; }
+  .hero .eyebrow { font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--terra); }
+  .hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 8vw, 5.5rem); line-height: 1.03; margin: 1.2rem 0 0; max-width: 15ch; }
+  .hero h1 em { font-style: italic; }
+  .hero p { color: #cdd8cd; max-width: 44ch; margin: 1.4rem 0 0; font-size: 1.1rem; }
+  .hero .cta { margin-top: 2.2rem; display: flex; flex-wrap: wrap; gap: 0.9rem; }
+
+  .section { padding-block: clamp(3.5rem, 9vw, 6rem); }
+  .section h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.9rem, 5vw, 3rem); margin: 0 0 0.4rem; }
+  .section .sub { color: var(--muted); margin: 0 0 2.6rem; }
+
+  .menu { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem 3rem; }
+  .dish { display: flex; align-items: baseline; gap: 0.8rem; }
+  .dish .nm { font-family: var(--serif); font-size: 1.25rem; }
+  .dish .dots { flex: 1; border-bottom: 1px dotted #cdbfa3; transform: translateY(-4px); }
+  .dish .pr { font-variant-numeric: tabular-nums; color: var(--muted); }
+  .dish small { display: block; color: var(--muted); font-size: 0.82rem; }
+  @media (max-width: 700px) { .menu { grid-template-columns: 1fr; } }
+
+  .about { background: var(--cream-2); }
+  .about .wrap { max-width: 640px; }
+  .about p { color: var(--muted); }
+
+  .visit { background: var(--green); color: var(--cream); text-align: center; }
+  .visit dl { max-width: 420px; margin: 0 auto 2rem; display: grid; grid-template-columns: 1fr auto; gap: 0.5rem 2rem; text-align: left; }
+  .visit dt { color: #a9b6a9; }
+  .visit dd { margin: 0; }
+
+  footer.site { background: var(--green-2); color: #8fa08f; text-align: center; padding-block: 1.8rem; font-size: 0.82rem; }
+</style>
+
+<div class="demobar">
+  <span>DEMO · So könnte die Website für ein <b>Restaurant</b> aussehen</span>
+  <span>
+    <a href="/beispiele">← Galerie</a>
+    <a href="/#kontakt">Diese Website für meinen Betrieb →</a>
+  </span>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <div class="logo">Trattoria da Marco</div>
+    <nav>
+      <a href="#karte">Speisekarte</a>
+      <a href="#about">Über uns</a>
+      <a href="#besuch">Öffnungszeiten</a>
+    </nav>
+    <a class="btn" href="/kalender">Tisch reservieren</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Italienische Küche · seit 1998</div>
+    <h1>Wie bei <em>Nonna</em>. Nur mit Reservierung.</h1>
+    <p>Familiengeführt in Musterstadt. Frische Pasta, ein kleiner Weinkeller, Platz für Ihren Abend.</p>
+    <div class="cta">
+      <a class="btn" href="/kalender">Tisch reservieren</a>
+      <a class="btn btn--cream" href="#karte">Zur Speisekarte</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="karte">
+  <div class="wrap">
+    <h2>Speisekarte</h2>
+    <p class="sub">Ein Auszug – die Karte wechselt mit den Jahreszeiten.</p>
+    <div class="menu">
+      <div class="dish"><span class="nm">Bruschetta al Pomodoro<small>Röstbrot, Tomate, Basilikum</small></span><span class="dots"></span><span class="pr">7,50</span></div>
+      <div class="dish"><span class="nm">Tagliatelle al Ragù<small>Hausgemachte Pasta, Rinderragù</small></span><span class="dots"></span><span class="pr">15,00</span></div>
+      <div class="dish"><span class="nm">Risotto ai Funghi<small>Steinpilze, Parmesan</small></span><span class="dots"></span><span class="pr">16,50</span></div>
+      <div class="dish"><span class="nm">Saltimbocca alla Romana<small>Kalb, Salbei, Prosciutto</small></span><span class="dots"></span><span class="pr">22,00</span></div>
+      <div class="dish"><span class="nm">Tiramisù della Casa<small>Nach Familienrezept</small></span><span class="dots"></span><span class="pr">6,50</span></div>
+      <div class="dish"><span class="nm">Vino della Casa 0,2l<small>Rot oder weiß</small></span><span class="dots"></span><span class="pr">5,50</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section about" id="about">
+  <div class="wrap">
+    <h2>Über uns</h2>
+    <p class="sub">&nbsp;</p>
+    <p>1998 hat Marco die Trattoria eröffnet – heute steht seine Tochter mit in der Küche. Wir kochen, was Saison hat, machen Pasta und Brot selbst und kennen die meisten Gäste beim Namen. Reservieren lohnt sich, besonders am Wochenende.</p>
+  </div>
+</section>
+
+<section class="section visit" id="besuch">
+  <div class="wrap">
+    <h2>Öffnungszeiten</h2>
+    <p class="sub" style="color:#a9b6a9">Küche bis 22 Uhr</p>
+    <dl>
+      <dt>Dienstag – Sonntag</dt><dd>17 – 23 Uhr</dd>
+      <dt>Sonntag Mittag</dt><dd>12 – 14:30 Uhr</dd>
+      <dt>Montag</dt><dd>Ruhetag</dd>
+    </dl>
+    <p style="color:#cdd8cd">Marktplatz 3 · 12345 Musterstadt · 01234 / 22 33 44</p>
+    <p style="margin-top:1.8rem"><a class="btn" href="/kalender">Tisch reservieren</a></p>
+  </div>
+</section>
+
+<footer class="site">Trattoria da Marco · Musterstadt · <a href="/beispiele" style="border-bottom:1px solid currentColor">Demo von EAN Agency</a></footer>

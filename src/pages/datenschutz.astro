@@ -1,0 +1,34 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="Datenschutzerklärung – EAN Agency">
+  <Header />
+  <main class="mx-auto max-w-3xl px-6 py-24">
+    <h1 class="text-3xl font-bold tracking-tight">Datenschutzerklärung</h1>
+
+    <div class="mt-6 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
+      <strong>Noch auszufüllen.</strong> Eine DSGVO-konforme Datenschutzerklärung ist
+      Pflicht. Inhalt hängt davon ab, was die Seite später einsetzt (Kontaktformular,
+      Hosting-Anbieter, Analytics, eingebettetes Buchungstool, Schriftarten). Am besten
+      mit einem seriösen Generator (z. B. von einer Kanzlei) erstellen und von jemandem
+      mit DSGVO-Kenntnis prüfen lassen.
+    </div>
+
+    <div class="mt-8 space-y-4 text-ink-soft">
+      <p>
+        Verantwortlich im Sinne der DSGVO ist der im <a href="/impressum" class="underline">Impressum</a>
+        genannte Betreiber.
+      </p>
+      <p>
+        Aktuell werden über diese Seite keine personenbezogenen Daten aktiv erhoben,
+        außer sie schreiben uns per E-Mail. In diesem Fall verarbeiten wir Ihre Angaben
+        ausschließlich zur Bearbeitung Ihrer Anfrage.
+      </p>
+      <p>[Ergänzen: Hosting, Server-Logfiles, Kontaktformular, Cookies, Auftragsverarbeiter, Betroffenenrechte.]</p>
+    </div>
+  </main>
+  <Footer />
+</Layout>

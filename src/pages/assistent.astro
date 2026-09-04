@@ -1,0 +1,84 @@
+---
+import Sub from "../layouts/Sub.astro";
+---
+<Sub
+  title="KI-Assistent"
+  heading="KI-Assistent"
+  lead="Fragen zu Leistungen, Ablauf oder Preisen – direkt beantwortet. Für eine echte Anfrage geht es mit einem Klick weiter zum Formular."
+>
+  <div class="card">
+    <div class="chat__log" id="chatLog" aria-live="polite"></div>
+    <div class="chat__chips" id="chatChips"></div>
+    <form class="chat__ask" id="askForm">
+      <input id="askInput" type="text" autocomplete="off" placeholder="Frag etwas … z. B. „Was kostet das?“" aria-label="Frage an den Assistenten" />
+      <button type="submit" aria-label="Frage senden">→</button>
+    </form>
+    <p class="demo-note">Demo – der Assistent antwortet aus einer festen Wissensbasis. Die frei antwortende KI-Version folgt mit dem Live-Betrieb.</p>
+  </div>
+
+  <div class="cta-strip">
+    <a class="btn" href="/#kontakt">So etwas für meinen Betrieb</a>
+    <p>Ein KI-Assistent auf Ihrer Website beantwortet Kundenfragen rund um die Uhr.</p>
+  </div>
+
+  <script is:inline>
+  (function () {
+    var KB = [
+      { k: ["kosten", "preis", "teuer", "was kostet", "budget"], a: "Wir arbeiten mit Festpreisen pro Projekt. Den genauen Preis nennen wir nach einem kurzen Erstgespräch – kostenlos und unverbindlich.", lead: true },
+      { k: ["ablauf", "wie läuft", "schritte", "prozess", "anfangen"], a: "In vier Schritten: 1) kostenloses Erstgespräch, 2) Analyse & Festpreis-Angebot, 3) Umsetzung (meist 1–2 Wochen), 4) laufende Betreuung." },
+      { k: ["leistung", "angebot", "was macht ihr", "services", "könnt ihr"], a: "Vier Bausteine: KI-Automatisierung (mit Make.com), Websites, KI-Assistenten und Werbung über Google & LinkedIn Ads." },
+      { k: ["automatis", "termin", "buchung", "kalender", "erinnerung", "telefon"], a: "Typischer Einstieg ist die Terminbuchung: Kunden buchen online, Bestätigung und Erinnerung laufen automatisch. Die Demo dazu gibt es unter „Terminkalender“." },
+      { k: ["website", "webseite", "webdesign", "homepage"], a: "Ja. Schnelle, hochwertige Seiten, die auf dem Handy überzeugen und aus Besuchern Anfragen machen. Beispiele unter „Beispiele“." },
+      { k: ["ads", "werbung", "google", "linkedin", "marketing"], a: "Wir schalten Google Ads und LinkedIn Ads für lokale Betriebe – mit klarem Blick auf die Kosten pro Anfrage. Mehr unter Leistungen." },
+      { k: ["für wen", "zielgruppe", "branche", "handwerk", "studio", "praxis"], a: "Für kleine und mittelständische Betriebe vor Ort: Handwerk, Studios, Praxen, Salons, Gastronomie." },
+      { k: ["dauer", "wie lange", "wie schnell"], a: "Die meisten ersten Systeme stehen in ein bis zwei Wochen." },
+      { k: ["wer seid", "team", "gründer", "dahinter"], a: "EAN Agency wird von drei Gründern geführt: Eduard, Artjom und Nizar. Das „EAN“ sind unsere Initialen." },
+      { k: ["kontakt", "erreichen", "anrufen", "melden", "mail", "e-mail"], a: "Am schnellsten über das Anfrageformular – oder direkt an aiagencyean@outlook.com.", lead: true },
+      { k: ["anfrage", "offerte", "interesse", "zusammenarbeit", "beauftragen", "buchen"], a: "Gern. Klick auf „Anfrage ausfüllen“ – dann brauchst du nur noch Name, E-Mail und was du brauchst.", lead: true }
+    ];
+    var GREET = "Hi! Ich bin der EAN-Assistent. Frag mich zu Leistungen, Ablauf oder Preisen – oder schick uns direkt eine Anfrage.";
+    var FALLBACK = "Das kann ich hier nicht sicher beantworten. Am besten kurz eine Anfrage schicken – wir melden uns persönlich.";
+
+    var log = document.getElementById("chatLog");
+    var chips = document.getElementById("chatChips");
+    var askForm = document.getElementById("askForm");
+    var askInput = document.getElementById("askInput");
+    if (!log) return;
+
+    function add(text, who, jump) {
+      var d = document.createElement("div");
+      d.className = "bub " + who;
+      d.textContent = text;
+      if (jump) {
+        d.appendChild(document.createElement("br"));
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "jump"; b.textContent = "→ Anfrage ausfüllen";
+        b.addEventListener("click", function () { window.location.href = "/#kontakt"; });
+        d.appendChild(b);
+      }
+      log.appendChild(d); log.scrollTop = log.scrollHeight;
+    }
+    function answer(q) {
+      var s = " " + q.toLowerCase() + " ", best = null, sc = 0;
+      KB.forEach(function (it) {
+        var n = 0; it.k.forEach(function (kw) { if (s.indexOf(kw) !== -1) n += kw.length; });
+        if (n > sc) { sc = n; best = it; }
+      });
+      setTimeout(function () { best ? add(best.a, "bot", !!best.lead) : add(FALLBACK, "bot", true); }, 240);
+    }
+
+    add(GREET, "bot");
+    ["Was kostet das?", "Wie läuft ein Projekt ab?", "Macht ihr auch Websites?", "Ich will eine Anfrage senden"].forEach(function (t) {
+      var c = document.createElement("button");
+      c.type = "button"; c.className = "chip"; c.textContent = t;
+      c.addEventListener("click", function () { add(t, "me"); answer(t); });
+      chips.appendChild(c);
+    });
+    askForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var q = askInput.value.trim(); if (!q) return;
+      add(q, "me"); askInput.value = ""; answer(q);
+    });
+  })();
+  </script>
+</Sub>

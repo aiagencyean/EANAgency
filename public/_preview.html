@@ -1,0 +1,1058 @@
+<meta charset="utf-8">
+<title>EAN Agency — Kosmos-Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800&family=Sora:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  body { padding-top: 2.5rem; }
+  .ean-demobar { position: fixed; top: 0; left: 0; right: 0; z-index: 99999; height: 2.5rem; background: #050506; color: #E8B23A; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0 1rem; font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 0.66rem; border-bottom: 1px solid rgba(232,178,58,0.3); }
+  .ean-demobar b { color: #F7E7B6; }
+  .ean-demobar a { border-bottom: 1px solid #E8B23A; padding-bottom: 1px; white-space: nowrap; }
+  .ean-demobar .acts { display: flex; gap: 1rem; }
+  .bar { top: 2.5rem !important; }
+  @media (max-width: 640px) { .ean-demobar { font-size: 0.56rem; } .ean-demobar b { display: none; } }
+</style>
+
+<div class="ean-demobar">
+  <span>DEMO-DESIGN „KOSMOS“ · auffälliges, cinematisches Konzept — <b>so lässt sich eine Marke inszenieren</b></span>
+  <span class="acts">
+    <a href="/beispiele">← Galerie</a>
+    <a href="/#kontakt">Dieses Design für meinen Betrieb →</a>
+  </span>
+</div>
+
+<style>
+  :root {
+    --void: #000004;
+    --void-2: #05060E;
+    --panel: rgba(8, 10, 22, 0.55);
+    --star: #EEF2FF;
+    --star-dim: #8B93B6;
+    --haze: rgba(180, 198, 255, 0.14);
+    --haze-strong: rgba(180, 198, 255, 0.32);
+    --plasma: #7DF9FF;
+    --plasma-deep: #2E63FF;
+    --flare: #FF5FA2;
+    --glow: rgba(125, 249, 255, 0.45);
+
+    --font-display: "Unbounded", "Sora", system-ui, sans-serif;
+    --font-body: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+    --maxw: 1200px;
+    --pad: clamp(1.25rem, 5vw, 3.5rem);
+    --station-y: clamp(3.5rem, 8vh, 6rem);
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--void);
+    color: var(--star);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--flare); color: #fff; }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid var(--plasma); outline-offset: 4px; }
+
+  /* ---------------- cosmic backdrop ---------------- */
+  #space {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    display: block;
+  }
+  .nebula {
+    position: fixed;
+    inset: -20% -20% -20% -20%;
+    z-index: 1;
+    pointer-events: none;
+    filter: blur(70px);
+    opacity: 0.55;
+    will-change: transform;
+  }
+  .nebula i {
+    position: absolute;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+  }
+  .nebula .n1 {
+    width: 46vw; height: 46vw; left: -6vw; top: 4vh;
+    background: radial-gradient(circle at 40% 40%, var(--plasma-deep), transparent 68%);
+    animation: drift1 44s ease-in-out infinite;
+  }
+  .nebula .n2 {
+    width: 40vw; height: 40vw; right: -8vw; top: 30vh;
+    background: radial-gradient(circle at 50% 50%, var(--flare), transparent 66%);
+    opacity: 0.5;
+    animation: drift2 58s ease-in-out infinite;
+  }
+  .nebula .n3 {
+    width: 52vw; height: 52vw; left: 20vw; bottom: -20vh;
+    background: radial-gradient(circle at 50% 50%, var(--plasma), transparent 70%);
+    opacity: 0.35;
+    animation: drift3 66s ease-in-out infinite;
+  }
+  @keyframes drift1 { 50% { transform: translate3d(8vw, 6vh, 0) scale(1.15); } }
+  @keyframes drift2 { 50% { transform: translate3d(-10vw, -4vh, 0) scale(1.2); } }
+  @keyframes drift3 { 50% { transform: translate3d(6vw, -8vh, 0) scale(0.9); } }
+
+  .vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      radial-gradient(130% 90% at 50% 0%, transparent 40%, rgba(0,0,4,0.55) 100%),
+      radial-gradient(100% 100% at 50% 120%, rgba(0,0,4,0.7) 0%, transparent 55%);
+  }
+
+  .page { position: relative; z-index: 3; }
+
+  .wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--pad); }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--star-dim);
+  }
+
+  /* ---------------- top bar ---------------- */
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: linear-gradient(var(--void), color-mix(in srgb, var(--void) 10%, transparent));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--haze);
+  }
+  .bar__in {
+    max-width: var(--maxw); margin-inline: auto;
+    padding: 0.9rem var(--pad);
+    display: flex; align-items: center; gap: 1.5rem;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 0.65rem;
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 1rem; letter-spacing: 0.02em;
+  }
+  .brand__mark {
+    position: relative;
+    width: 2rem; height: 2rem;
+    display: grid; place-items: center;
+    font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.06em;
+    border: 1px solid var(--haze-strong);
+    border-radius: 50%;
+    color: var(--star);
+    box-shadow: 0 0 18px -4px var(--glow);
+  }
+  .brand__mark::after {
+    content: "";
+    position: absolute; inset: -4px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    border-top-color: var(--plasma);
+    animation: spin 4s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .bar nav {
+    display: flex; gap: 1.9rem; margin-left: auto;
+    font-size: 0.88rem; color: var(--star-dim);
+  }
+  .bar nav a { transition: color 0.2s, text-shadow 0.2s; }
+  .bar nav a:hover { color: var(--star); text-shadow: 0 0 14px var(--glow); }
+
+  .status {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--font-mono); font-size: 0.62rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--star-dim);
+    white-space: nowrap;
+  }
+  .status__dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--plasma);
+    box-shadow: 0 0 10px 2px var(--glow);
+    animation: blink 2.4s ease-in-out infinite;
+  }
+  @keyframes blink { 50% { opacity: 0.3; } }
+
+  .btn {
+    --_bg: var(--star); --_fg: var(--void);
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.2rem;
+    font-family: var(--font-mono); font-size: 0.72rem;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    background: var(--_bg); color: var(--_fg);
+    border: 1px solid var(--_bg);
+    border-radius: 999px;
+    transition: transform 0.2s cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s, background 0.2s, color 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 0 30px -6px var(--glow); }
+  .btn--plasma {
+    --_bg: transparent; --_fg: var(--star);
+    border-color: var(--plasma);
+    box-shadow: inset 0 0 22px -12px var(--glow), 0 0 22px -10px var(--glow);
+  }
+  .btn--plasma:hover { background: var(--plasma); color: #001018; }
+  .btn--ghost { --_bg: transparent; --_fg: var(--star); border-color: var(--haze-strong); }
+  .btn--ghost:hover { border-color: var(--star); }
+  .btn--sm { padding: 0.55rem 0.95rem; }
+
+  @media (max-width: 940px) {
+    .bar nav { display: none; }
+    .status .status__label { display: none; }
+  }
+
+  /* ---------------- hero ---------------- */
+  .hero {
+    position: relative;
+    min-height: 90svh;
+    display: flex;
+    align-items: center;
+    padding-block: clamp(4rem, 11vh, 7rem);
+  }
+  .hero .wrap { position: relative; z-index: 2; width: 100%; }
+
+  .eyebrow { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1.8rem; }
+  .eyebrow::after { content: ""; height: 1px; flex: 1; max-width: 120px; background: var(--haze-strong); }
+
+  h1.hero__title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.7rem, 8vw, 6.6rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin: 0;
+    max-width: 15ch;
+    text-wrap: balance;
+    text-shadow: 0 0 60px rgba(46, 99, 255, 0.25);
+  }
+  h1.hero__title .w {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.5em);
+    filter: blur(12px);
+  }
+  .lit h1.hero__title .w {
+    animation: warpIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes warpIn { to { opacity: 1; transform: none; filter: blur(0); } }
+  h1.hero__title .grad {
+    background: linear-gradient(100deg, var(--plasma), #fff 40%, var(--flare));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .lit .float h1.hero__title .w { animation-fill-mode: forwards; }
+
+  .hero__lead {
+    margin: 2rem 0 0;
+    max-width: 46ch;
+    font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+    font-weight: 300;
+    color: var(--star-dim);
+    text-shadow: 0 2px 24px rgba(0, 0, 4, 0.9);
+  }
+  .hero__cta { margin-top: 2.6rem; display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .hero__clock {
+    margin-top: 3rem; padding-top: 1.4rem;
+    border-top: 1px solid var(--haze);
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--star-dim);
+    display: flex; gap: 0.7rem; flex-wrap: wrap;
+  }
+  .hero__clock b { color: var(--star); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  .scrollcue {
+    position: absolute; left: 50%; bottom: 1.6rem;
+    transform: translateX(-50%);
+    font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--star-dim);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    z-index: 2;
+  }
+  .scrollcue::after {
+    content: ""; width: 1px; height: 34px;
+    background: linear-gradient(var(--plasma), transparent);
+    animation: cue 2.2s ease-in-out infinite;
+  }
+  @keyframes cue { 0%,100% { opacity: 0.2; transform: scaleY(0.5); transform-origin: top; } 50% { opacity: 1; transform: scaleY(1); } }
+
+  /* ---------------- stations ---------------- */
+  .station { position: relative; padding-block: var(--station-y); }
+  .station + .station { padding-top: 0; }
+  #fuer-wen > .station { padding-top: 0; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(60px) scale(0.94);
+    filter: blur(10px);
+    transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.9s ease;
+  }
+  .reveal.in { opacity: 1; transform: none; filter: blur(0); }
+
+  .head { margin-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+  .head h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    line-height: 1.03;
+    letter-spacing: -0.02em;
+    margin: 0.8rem 0 0;
+    max-width: 20ch;
+    text-wrap: balance;
+    text-shadow: 0 2px 30px rgba(0, 0, 4, 0.85);
+  }
+  .head p { margin: 1.1rem 0 0; max-width: 40ch; color: var(--star-dim); font-weight: 300; text-shadow: 0 2px 20px rgba(0, 0, 4, 0.9); }
+  .forwho > div:first-child p { text-shadow: 0 2px 20px rgba(0, 0, 4, 0.9); }
+
+  .card {
+    background: var(--panel);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--haze);
+    border-radius: 18px;
+  }
+
+  /* services */
+  .svcs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .svc {
+    padding: clamp(1.6rem, 3vw, 2.4rem);
+    display: flex; flex-direction: column; gap: 1rem;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s, box-shadow 0.4s;
+    will-change: transform;
+  }
+  .svc:hover {
+    transform: translateY(-10px);
+    border-color: rgba(125,249,255,0.4);
+    box-shadow: 0 30px 80px -40px var(--glow);
+  }
+  .svc__ix {
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--plasma);
+    display: flex; justify-content: space-between; letter-spacing: 0.1em;
+  }
+  .svc h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem); letter-spacing: -0.01em; margin: 0;
+  }
+  .svc p { margin: 0; color: var(--star-dim); font-weight: 300; font-size: 0.96rem; }
+  .svc ul { margin: auto 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .svc li {
+    font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--star);
+    border: 1px solid var(--haze-strong); border-radius: 999px; padding: 0.3rem 0.6rem;
+  }
+  @media (max-width: 860px) { .svcs { grid-template-columns: 1fr; } }
+
+  /* marquee */
+  .beltwrap { position: relative; padding-block: clamp(2rem, 5vw, 3.5rem); overflow: hidden; }
+  .belt {
+    display: flex; gap: 3rem; width: max-content;
+    animation: belt 30s linear infinite;
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(1.4rem, 3.4vw, 2.6rem); letter-spacing: -0.01em;
+    color: var(--star-dim);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+  .belt span { display: inline-flex; align-items: center; gap: 3rem; }
+  .belt span::after { content: "✦"; color: var(--plasma); font-size: 0.6em; }
+  @keyframes belt { to { transform: translateX(-50%); } }
+  .beltwrap:hover .belt { animation-play-state: paused; }
+
+  /* forwho */
+  .forwho { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: start; }
+  .forwho p { margin: 0 0 1rem; color: var(--star-dim); font-weight: 300; }
+  .forwho strong { color: var(--star); font-weight: 600; }
+  .statbox { padding: clamp(1.5rem, 3vw, 2.2rem); }
+  .statbox .mono { display: block; margin-bottom: 0.9rem; }
+  .statbox .big {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(1.3rem, 2.7vw, 1.9rem); line-height: 1.16; letter-spacing: -0.015em; margin: 0;
+  }
+  .statbox .big em { font-style: normal; color: var(--plasma); }
+  .statbox .fine { margin: 1rem 0 0; font-size: 0.8rem; color: var(--star-dim); }
+  @media (max-width: 820px) { .forwho { grid-template-columns: 1fr; } }
+
+  /* trajectory / ablauf */
+  .traj { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+  .traj::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 34px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--haze-strong), var(--plasma), var(--haze-strong), transparent);
+  }
+  .stop { position: relative; padding-top: 4.4rem; }
+  .stop::before {
+    content: ""; position: absolute; left: 0; top: 28px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--void); border: 1px solid var(--plasma);
+    box-shadow: 0 0 14px 2px var(--glow);
+  }
+  .stop__no { font-family: var(--font-mono); font-size: 0.72rem; color: var(--plasma); }
+  .stop h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; margin: 0.5rem 0; letter-spacing: -0.01em; }
+  .stop p { margin: 0; font-size: 0.9rem; color: var(--star-dim); font-weight: 300; }
+  @media (max-width: 880px) {
+    .traj { grid-template-columns: 1fr 1fr; }
+    .traj::before { display: none; }
+  }
+  @media (max-width: 520px) { .traj { grid-template-columns: 1fr; } }
+
+  /* crew */
+  .crew { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .mem { padding: clamp(1.6rem, 4vw, 2.6rem); display: flex; flex-direction: column; gap: 1.1rem; }
+  .mem__ini {
+    width: 3.4rem; height: 3.4rem; border-radius: 50%;
+    display: grid; place-items: center;
+    border: 1px solid var(--haze-strong);
+    font-family: var(--font-mono); font-size: 1rem;
+    box-shadow: 0 0 24px -6px var(--glow);
+  }
+  .mem__name { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.4rem, 3vw, 2rem); letter-spacing: -0.02em; }
+  .mem__role { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--star-dim); }
+  @media (max-width: 780px) { .crew { grid-template-columns: 1fr; } }
+
+  /* portal cta */
+  .portal { position: relative; text-align: center; padding-block: clamp(6rem, 16vh, 12rem); overflow: hidden; }
+  .portal__rings { position: absolute; left: 50%; top: 50%; width: min(52rem, 92vw); aspect-ratio: 1; transform: translate(-50%, -50%); pointer-events: none; opacity: 0.85; }
+  .portal__rings i {
+    position: absolute; inset: 0; border-radius: 50%;
+    border: 1px solid var(--haze-strong);
+  }
+  .portal__rings i:nth-child(1) { inset: 0; animation: spin 30s linear infinite; border-top-color: var(--plasma); box-shadow: 0 0 60px -10px var(--glow); }
+  .portal__rings i:nth-child(2) { inset: 8%; animation: spin 22s linear infinite reverse; border-bottom-color: var(--flare); box-shadow: 0 0 50px -12px rgba(255,95,162,0.4); }
+  .portal__rings i:nth-child(3) { inset: 18%; animation: spin 16s linear infinite; border-left-color: var(--plasma); }
+  .portal__rings i:nth-child(4) { inset: 30%; animation: spin 12s linear infinite reverse; border-right-color: var(--flare); }
+  .portal h2 {
+    position: relative; z-index: 2;
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(2.6rem, 9vw, 7rem); line-height: 0.98; letter-spacing: -0.03em;
+    margin: 0 0 1.4rem; text-wrap: balance;
+    text-shadow: 0 0 80px rgba(46,99,255,0.35);
+  }
+  .portal p { position: relative; z-index: 2; margin: 0 auto 2.6rem; max-width: 42ch; color: var(--star-dim); font-weight: 300; }
+  .portal__cta { position: relative; z-index: 2; display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+
+  /* footer */
+  footer { border-top: 1px solid var(--haze); padding-block: 2.6rem; font-size: 0.84rem; color: var(--star-dim); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; }
+  footer nav { display: flex; gap: 1.4rem; }
+  footer a:hover { color: var(--star); }
+  .draft {
+    width: 100%; margin-top: 0.6rem; padding-top: 1rem;
+    border-top: 1px dashed var(--haze);
+    font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.08em;
+    text-transform: uppercase; opacity: 0.6;
+  }
+
+  /* ---------------- assistent ---------------- */
+  .assist { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: stretch; }
+  .assist__chat, .assist__form { padding: clamp(1.3rem, 3vw, 1.8rem); display: flex; flex-direction: column; }
+  .assist__log {
+    flex: 1; min-height: 11rem; max-height: 22rem; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 0.7rem; padding-right: 0.3rem;
+  }
+  .msg {
+    max-width: 85%; padding: 0.7rem 0.9rem; border-radius: 14px;
+    font-size: 0.92rem; line-height: 1.5; white-space: pre-wrap;
+  }
+  .msg.bot { align-self: flex-start; background: rgba(125,249,255,0.08); border: 1px solid rgba(125,249,255,0.22); }
+  .msg.user { align-self: flex-end; background: rgba(255,255,255,0.08); border: 1px solid var(--haze-strong); }
+  .msg .jump {
+    display: inline-block; margin-top: 0.55rem;
+    font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--plasma); border: 1px solid var(--plasma); border-radius: 999px; padding: 0.32rem 0.7rem;
+    cursor: pointer; background: transparent; transition: background 0.2s, color 0.2s;
+  }
+  .msg .jump:hover { background: var(--plasma); color: #001018; }
+  .assist__chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.9rem 0; }
+  .chip {
+    font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--star-dim); border: 1px solid var(--haze); border-radius: 999px; padding: 0.34rem 0.65rem;
+    cursor: pointer; background: transparent; transition: color 0.2s, border-color 0.2s;
+  }
+  .chip:hover { color: var(--star); border-color: var(--haze-strong); }
+  .assist__ask { display: flex; gap: 0.5rem; }
+  .assist__ask input {
+    flex: 1; background: rgba(0,0,4,0.4); border: 1px solid var(--haze-strong); border-radius: 12px;
+    color: var(--star); font-family: var(--font-body); font-size: 0.92rem; padding: 0.7rem 0.9rem;
+  }
+  .assist__ask input::placeholder { color: var(--star-dim); }
+  .assist__send {
+    width: 2.9rem; border: 1px solid var(--plasma); border-radius: 12px; background: transparent;
+    color: var(--plasma); font-size: 1.1rem; cursor: pointer; transition: background 0.2s, color 0.2s;
+  }
+  .assist__send:hover { background: var(--plasma); color: #001018; }
+
+  .assist__form { gap: 0.85rem; }
+  .assist__formhead { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; margin: 0; letter-spacing: -0.01em; }
+  .assist__form label { display: flex; flex-direction: column; gap: 0.3rem; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--star-dim); }
+  .assist__form input:not(.hp), .assist__form textarea {
+    background: rgba(0,0,4,0.4); border: 1px solid var(--haze-strong); border-radius: 10px;
+    color: var(--star); font-family: var(--font-body); font-size: 0.95rem; padding: 0.6rem 0.75rem;
+    text-transform: none; letter-spacing: normal;
+  }
+  .assist__form textarea { min-height: 6rem; resize: vertical; }
+  .assist__form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .assist__submit {
+    margin-top: 0.3rem; align-self: flex-start;
+    font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+    background: var(--plasma); color: #001018; border: 1px solid var(--plasma); border-radius: 999px;
+    padding: 0.75rem 1.3rem; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  }
+  .assist__submit:hover { transform: translateY(-2px); box-shadow: 0 0 26px -8px var(--glow); }
+  .assist__submit[disabled] { opacity: 0.5; cursor: progress; transform: none; }
+  .assist__status { margin: 0; font-size: 0.85rem; min-height: 1.2em; }
+  .assist__status.ok { color: var(--plasma); }
+  .assist__status.err { color: var(--flare); }
+  .assist__note { margin: 0.2rem 0 0; font-size: 0.72rem; color: var(--star-dim); }
+  @media (max-width: 820px) { .assist { grid-template-columns: 1fr; } }
+
+  /* floaty ambient motion */
+  .float { animation: floaty 9s ease-in-out infinite; }
+  .float.d1 { animation-delay: -2s; }
+  .float.d2 { animation-delay: -4s; }
+  .float.d3 { animation-delay: -6s; }
+  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+  @media (max-width: 720px) {
+    .hero { min-height: auto; padding-block: 5rem 3.5rem; }
+    h1.hero__title { font-size: clamp(2.4rem, 11vw, 3.4rem); max-width: none; }
+    .hero__lead { max-width: none; }
+    .portal h2 { font-size: clamp(2.4rem, 13vw, 3.6rem); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nebula, .brand__mark::after, .status__dot,
+    .belt, .portal__rings i, .float, .scrollcue::after { animation: none !important; }
+    .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+    h1.hero__title .w { opacity: 1; transform: none; filter: none; }
+    .belt { -webkit-mask-image: none; mask-image: none; flex-wrap: wrap; width: auto; }
+  }
+</style>
+
+<canvas id="space" aria-hidden="true"></canvas>
+<div class="nebula" id="nebula" aria-hidden="true"><i class="n1"></i><i class="n2"></i><i class="n3"></i></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<div class="page">
+  <div class="bar">
+    <div class="bar__in">
+      <a class="brand" href="#top"><span class="brand__mark">EAN</span><span>EAN&nbsp;Agency</span></a>
+      <nav>
+        <a href="#leistungen">Leistungen</a>
+        <a href="#fuer-wen">Für wen</a>
+        <a href="#ablauf">Ablauf</a>
+        <a href="#crew">Team</a>
+        <a href="#assistent">Assistent</a>
+      </nav>
+      <span class="status"><span class="status__dot"></span><span class="status__label">System aktiv</span></span>
+      <a class="btn btn--sm btn--plasma" href="#kontakt">Erstgespräch</a>
+    </div>
+  </div>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow mono">KI-Systeme · Lokale Betriebe</div>
+        <h1 class="hero__title">
+          <span class="w">Ihr</span> <span class="w">Betrieb</span> <span class="w">läuft.</span>
+          <span class="w">Rund</span> <span class="w">um</span> <span class="w">die</span> <span class="w grad">Uhr.</span>
+          <span class="w">Auch</span> <span class="w">ohne</span> <span class="w">Sie.</span>
+        </h1>
+        <p class="hero__lead">
+          Wir bauen Automatisierungen, die Termine annehmen, Anfragen sortieren und
+          nachfassen – während Sie arbeiten, schlafen oder Feierabend haben.
+        </p>
+        <div class="hero__cta">
+          <a class="btn btn--plasma" href="#kontakt">Kostenloses Erstgespräch</a>
+          <a class="btn btn--ghost" href="#leistungen">Was wir bauen</a>
+        </div>
+        <div class="hero__clock">
+          <span>Ihr Betrieb, jetzt gerade &mdash; <b id="clock">--:--:--</b> Uhr.</span>
+          <span>Die Automatisierung nimmt trotzdem Termine an.</span>
+        </div>
+      </div>
+      <div class="scrollcue" aria-hidden="true">Scroll</div>
+    </section>
+
+    <section class="station wrap" id="leistungen">
+      <div class="head reveal">
+        <span class="mono">Module</span>
+        <h2>Drei Systeme. Einzeln startklar, zusammen ein Autopilot.</h2>
+        <p>Von der ersten Automatisierung bis zur Kampagne, die neue Kunden in die Umlaufbahn holt.</p>
+      </div>
+      <div class="svcs">
+        <article class="svc card reveal">
+          <div class="svc__ix"><span>01</span><span>Make.com</span></div>
+          <h3>KI-Automatisierung</h3>
+          <p>Terminbuchung, Bestätigungen, Erinnerungen, Nachfass-Mails und wiederkehrende Abläufe laufen von selbst. Kein verpasster Auftrag.</p>
+          <ul><li>Online-Termine</li><li>Auto-Erinnerung</li><li>Anfragen bündeln</li><li>Bewertungen</li></ul>
+        </article>
+        <article class="svc card reveal">
+          <div class="svc__ix"><span>02</span><span>Astro</span></div>
+          <h3>Webdesign</h3>
+          <p>Eine schnelle, moderne Seite, die auf dem Handy überzeugt und aus Besuchern echte Anfragen macht. In Sekunden geladen.</p>
+          <ul><li>Mobil zuerst</li><li>Auf Anfragen</li><li>Sichtbar bei Google</li><li>Selbst pflegbar</li></ul>
+        </article>
+        <article class="svc card reveal">
+          <div class="svc__ix"><span>03</span><span>Google · LinkedIn</span></div>
+          <h3>Marketing &amp; Ads</h3>
+          <p>Werbung, die zu lokalen Betrieben passt: gefunden werden bei Google, gezielt ansprechen über LinkedIn – mit Blick auf die Kosten pro Anfrage.</p>
+          <ul><li>Google Ads</li><li>LinkedIn Ads</li><li>Landingpages</li><li>Auswertung</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="fuer-wen">
+      <div class="beltwrap" aria-hidden="true">
+        <div class="belt">
+          <span>Elektro</span><span>Sanitär &amp; Heizung</span><span>Nagelstudio</span><span>Dachdecker</span><span>Physiotherapie</span><span>KFZ-Werkstatt</span><span>Friseur</span><span>Maler</span><span>Tischlerei</span><span>Kosmetik</span>
+          <span>Elektro</span><span>Sanitär &amp; Heizung</span><span>Nagelstudio</span><span>Dachdecker</span><span>Physiotherapie</span><span>KFZ-Werkstatt</span><span>Friseur</span><span>Maler</span><span>Tischlerei</span><span>Kosmetik</span>
+        </div>
+      </div>
+      <div class="station wrap">
+        <div class="head reveal">
+          <span class="mono">Zielgruppe</span>
+          <h2>Für Betriebe, bei denen Termine noch am Telefon hängen.</h2>
+          <p>Handwerk, Studios, Praxen, Salons – vor Ort, mit vollen Auftragsbüchern und zu wenig Zeit.</p>
+        </div>
+        <div class="forwho">
+          <div class="reveal">
+            <p>Kleine und mittelständische Betriebe vor Ort. Überall dort, wo Anfragen per Anruf, Zettel und Rückruf laufen – und genau dabei Kunden verloren gehen.</p>
+            <p>Typischer Einstieg: die <strong>Terminbuchung</strong>. Kunden buchen online, Bestätigung und Erinnerung gehen automatisch raus, der Kalender bleibt voll – ohne dass jemand ständig ans Telefon muss.</p>
+            <p>Danach kommt Schritt für Schritt der Rest dazu: Angebote, Rechnungen, Bewertungen, Werbung. In Ihrem Tempo.</p>
+          </div>
+          <div class="statbox card reveal">
+            <span class="mono">Rechenbeispiel</span>
+            <p class="big">Ein verpasster Anruf am Tag ist bei 250&nbsp;€ Auftragswert rund <em>65.000&nbsp;€</em> im Jahr.</p>
+            <p class="fine">Illustrative Annahme, kein Versprechen – aber die Größenordnung, um die es geht.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="station wrap" id="ablauf">
+      <div class="head reveal">
+        <span class="mono">Flugbahn</span>
+        <h2>So läuft die Zusammenarbeit.</h2>
+        <p>Vier Schritte, klar getaktet – vom ersten Gespräch bis zum laufenden Betrieb.</p>
+      </div>
+      <div class="traj reveal">
+        <div class="stop"><span class="stop__no">01</span><h3>Erstgespräch</h3><p>Kostenlos und unverbindlich. Wir schauen, wo im Betrieb Zeit verloren geht.</p></div>
+        <div class="stop"><span class="stop__no">02</span><h3>Analyse &amp; Angebot</h3><p>Wir zeigen konkret, was sich automatisieren lässt – mit Aufwand und Festpreis.</p></div>
+        <div class="stop"><span class="stop__no">03</span><h3>Umsetzung</h3><p>Wir bauen das System – meist in ein bis zwei Wochen.</p></div>
+        <div class="stop"><span class="stop__no">04</span><h3>Betreuung</h3><p>Wir bleiben dran, messen die Ergebnisse und verbessern laufend.</p></div>
+      </div>
+    </section>
+
+    <section class="station wrap" id="crew">
+      <div class="head reveal">
+        <span class="mono">Besatzung</span>
+        <h2>Wer dahinter steckt.</h2>
+        <p>Drei Gründer. Das „EAN“ sind unsere Initialen – und der Anspruch: erreichbar, ansprechbar, nah dran.</p>
+      </div>
+      <div class="crew">
+        <div class="mem card reveal"><div class="mem__ini">E</div><div class="mem__name">Eduard</div><div class="mem__role">Automatisierung &amp; Kunden</div></div>
+        <div class="mem card reveal"><div class="mem__ini">A</div><div class="mem__name">Artjom</div><div class="mem__role">Web &amp; Umsetzung</div></div>
+        <div class="mem card reveal"><div class="mem__ini">N</div><div class="mem__name">Nizar</div><div class="mem__role">Ads &amp; Auswertung</div></div>
+      </div>
+    </section>
+
+    <section class="station wrap" id="assistent">
+      <div class="head reveal">
+        <span class="mono">Assistent</span>
+        <h2>Fragen? Frag direkt den EAN-Assistenten.</h2>
+        <p>Antworten zu Leistungen, Ablauf und Preisen – und in einem Schritt eine Anfrage an uns schicken.</p>
+      </div>
+      <div class="assist reveal">
+        <div class="assist__chat card">
+          <div class="assist__log" id="chatLog" aria-live="polite"></div>
+          <div class="assist__chips" id="chatChips"></div>
+          <form class="assist__ask" id="askForm">
+            <input id="askInput" type="text" autocomplete="off" placeholder="Frag etwas … z. B. „Was kostet das?“" aria-label="Frage an den Assistenten" />
+            <button class="assist__send" type="submit" aria-label="Frage senden">→</button>
+          </form>
+        </div>
+
+        <form class="assist__form card" id="leadForm">
+          <p class="assist__formhead">Anfrage senden</p>
+          <label>Name
+            <input type="text" name="name" required autocomplete="name" />
+          </label>
+          <label>Deine E-Mail
+            <input type="email" name="email" required autocomplete="email" />
+          </label>
+          <label>Betrieb / Branche
+            <input type="text" name="company" autocomplete="organization" />
+          </label>
+          <label>Nachricht
+            <textarea name="message" id="leadMessage" required></textarea>
+          </label>
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <button class="assist__submit" type="submit" id="leadBtn">Anfrage abschicken</button>
+          <p class="assist__status" id="leadStatus" role="status"></p>
+          <p class="assist__note">Deine Nachricht geht an aiagencyean@outlook.com. Du bekommst eine Bestätigung per E-Mail.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="portal" id="kontakt">
+      <div class="portal__rings" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="wrap">
+        <h2>Arbeite mit uns.</h2>
+        <p>Ein kurzes, kostenloses Erstgespräch reicht, um zu sehen, was in Ihrem Betrieb zuerst laufen sollte.</p>
+        <div class="portal__cta">
+          <a class="btn btn--plasma" href="mailto:aiagencyean@outlook.com?subject=Erstgespr%C3%A4ch%20EAN%20Agency">E-Mail schreiben</a>
+          <a class="btn btn--ghost" href="mailto:aiagencyean@outlook.com">aiagencyean@outlook.com</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>&copy; <span id="year">2026</span> EAN Agency</span>
+      <nav>
+        <a href="#kontakt">Impressum*</a>
+        <a href="#kontakt">Datenschutz*</a>
+        <a href="mailto:aiagencyean@outlook.com">aiagencyean@outlook.com</a>
+      </nav>
+      <span class="draft">Design-Entwurf · Impressum &amp; Datenschutz vor Live-Gang mit echten Daten füllen · Rechenbeispiel illustrativ</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+  var clock = document.getElementById("clock");
+  function tick() {
+    var d = new Date();
+    clock.textContent =
+      String(d.getHours()).padStart(2, "0") + ":" +
+      String(d.getMinutes()).padStart(2, "0") + ":" +
+      String(d.getSeconds()).padStart(2, "0");
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* headline warp-in */
+  requestAnimationFrame(function () {
+    document.body.classList.add("lit");
+    var ws = document.querySelectorAll(".hero__title .w");
+    ws.forEach(function (w, i) { w.style.animationDelay = (0.15 + i * 0.06) + "s"; });
+  });
+
+  /* reveal on scroll */
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+  document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+
+  /* pointer parallax for nebula */
+  var neb = document.getElementById("nebula");
+  var px = 0, py = 0, tx = 0, ty = 0;
+  if (!reduce) {
+    window.addEventListener("pointermove", function (e) {
+      tx = (e.clientX / window.innerWidth - 0.5);
+      ty = (e.clientY / window.innerHeight - 0.5);
+    }, { passive: true });
+  }
+  var scrollY = 0;
+  window.addEventListener("scroll", function () { scrollY = window.scrollY; }, { passive: true });
+
+  /* ---------------- starfield: flight through space ---------------- */
+  var canvas = document.getElementById("space");
+  var ctx = canvas.getContext("2d");
+  var W, H, cx, cy, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var stars = [], MAXZ = 1100, fov = 320;
+  var speed = 0, ambient = 0.55, warp = 20, warpDecay = 0.972;
+  var scrollBoost = 0, lastScrollY = 0;
+  var shoot = null, shootTimer = 0;
+
+  function resize() {
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx = W / 2; cy = H / 2;
+    var target = Math.min(900, Math.max(320, Math.round(W * H / 1600)));
+    stars = [];
+    for (var i = 0; i < target; i++) stars.push(newStar(Math.random() * MAXZ));
+  }
+  function newStar(z) {
+    return {
+      x: (Math.random() * 2 - 1) * W * 1.3,
+      y: (Math.random() * 2 - 1) * H * 1.3,
+      z: z,
+      pz: z,
+      h: Math.random() < 0.08 ? 1 : 0   /* rare tinted star */
+    };
+  }
+
+  function frame() {
+    px += (tx - px) * 0.04; py += (ty - py) * 0.04;
+    if (neb) neb.style.transform = "translate3d(" + (px * -30) + "px," + (py * -30 - scrollY * 0.04) + "px,0)";
+
+    var dv = Math.abs(scrollY - lastScrollY);
+    lastScrollY = scrollY;
+    scrollBoost += (Math.min(dv * 0.12, 9) - scrollBoost) * 0.25;
+
+    speed = ambient + warp + scrollBoost;
+    warp *= warpDecay;
+    if (warp < 0.01) warp = 0;
+
+    ctx.fillStyle = "rgba(0,0,4,0.38)";
+    ctx.fillRect(0, 0, W, H);
+
+    var ox = px * 90, oy = py * 90;
+
+    for (var i = 0; i < stars.length; i++) {
+      var s = stars[i];
+      s.pz = s.z;
+      s.z -= speed;
+      if (s.z < 1) { stars[i] = newStar(MAXZ); continue; }
+
+      var sx = (s.x / s.z) * fov + cx + ox;
+      var sy = (s.y / s.z) * fov + cy + oy;
+      if (sx < -40 || sx > W + 40 || sy < -40 || sy > H + 40) continue;
+
+      var px2 = (s.x / s.pz) * fov + cx + ox;
+      var py2 = (s.y / s.pz) * fov + cy + oy;
+
+      var k = 1 - s.z / MAXZ;
+      var size = k * 2.3 + 0.25;
+      var alpha = Math.min(1, k * 1.4 + 0.05);
+
+      if (warp > 0.4 || speed > 3) {
+        ctx.strokeStyle = s.h
+          ? "rgba(255,95,162," + alpha + ")"
+          : "rgba(235,242,255," + alpha + ")";
+        ctx.lineWidth = size;
+        ctx.beginPath();
+        ctx.moveTo(px2, py2);
+        ctx.lineTo(sx, sy);
+        ctx.stroke();
+      } else {
+        ctx.fillStyle = s.h
+          ? "rgba(125,249,255," + alpha + ")"
+          : "rgba(235,242,255," + alpha + ")";
+        ctx.beginPath();
+        ctx.arc(sx, sy, size, 0, 6.283);
+        ctx.fill();
+      }
+    }
+
+    /* shooting star */
+    if (!reduce) {
+      shootTimer--;
+      if (!shoot && shootTimer <= 0) {
+        shoot = {
+          x: Math.random() * W * 0.6, y: Math.random() * H * 0.4,
+          vx: 6 + Math.random() * 5, vy: 2 + Math.random() * 3, life: 1
+        };
+      }
+      if (shoot) {
+        shoot.x += shoot.vx; shoot.y += shoot.vy; shoot.life -= 0.012;
+        var g = ctx.createLinearGradient(shoot.x, shoot.y, shoot.x - shoot.vx * 12, shoot.y - shoot.vy * 12);
+        g.addColorStop(0, "rgba(255,255,255," + Math.max(0, shoot.life) + ")");
+        g.addColorStop(1, "rgba(255,95,162,0)");
+        ctx.strokeStyle = g; ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(shoot.x, shoot.y);
+        ctx.lineTo(shoot.x - shoot.vx * 12, shoot.y - shoot.vy * 12);
+        ctx.stroke();
+        if (shoot.life <= 0 || shoot.x > W + 60 || shoot.y > H + 60) {
+          shoot = null; shootTimer = 240 + Math.random() * 420;
+        }
+      }
+    }
+
+    raf = requestAnimationFrame(frame);
+  }
+
+  var raf;
+  function start() {
+    resize();
+    if (reduce) {
+      warp = 0; ambient = 0;
+      ctx.fillStyle = "#000004"; ctx.fillRect(0, 0, W, H);
+      for (var i = 0; i < stars.length; i++) {
+        var s = stars[i];
+        var sx = (s.x / s.z) * fov + cx, sy = (s.y / s.z) * fov + cy;
+        var k = 1 - s.z / MAXZ;
+        if (sx < 0 || sx > W || sy < 0 || sy > H) continue;
+        ctx.fillStyle = "rgba(235,242,255," + (k * 0.9 + 0.05) + ")";
+        ctx.beginPath(); ctx.arc(sx, sy, k * 1.6 + 0.3, 0, 6.283); ctx.fill();
+      }
+      return;
+    }
+    raf = requestAnimationFrame(frame);
+  }
+
+  var rt;
+  window.addEventListener("resize", function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () { cancelAnimationFrame(raf); start(); }, 200);
+  });
+
+  start();
+})();
+</script>
+
+<script>
+/* ============ EAN Assistent ============
+   v1: feste Wissensbasis, kein Live-LLM.
+   Für den echten, frei antwortenden KI-Chat später: answer() ersetzen durch
+   fetch('/api/chat', { method:'POST', body: JSON.stringify({ message: q }) })
+   – eine Serverless-Function auf Vercel, die den Anthropic-Key server-seitig hält. */
+(function () {
+  /* Zugangsschlüssel von https://web3forms.com (kostenlos). Leer = Demo-Modus (sendet NICHT wirklich). */
+  var WEB3FORMS_KEY = "";
+
+  var KB = [
+    { k: ["kosten", "preis", "teuer", "was kostet", "budget", "günstig", "guenstig"], a: "Wir arbeiten mit Festpreisen pro Projekt. Den genauen Preis nennen wir nach einem kurzen Erstgespräch – kostenlos und unverbindlich.", lead: true },
+    { k: ["ablauf", "wie läuft", "wie lauft", "schritte", "prozess", "anfangen", "loslegen"], a: "In vier Schritten: 1) kostenloses Erstgespräch, 2) Analyse & Festpreis-Angebot, 3) Umsetzung (meist 1–2 Wochen), 4) laufende Betreuung." },
+    { k: ["leistung", "angebot", "was macht ihr", "was bietet", "services", "könnt ihr", "konnt ihr"], a: "Drei Bausteine: KI-Automatisierung (Terminbuchung, Anfragen, Erinnerungen – mit Make.com), Webdesign, und Werbung über Google Ads & LinkedIn Ads." },
+    { k: ["automatis", "make.com", "termin", "buchung", "kalender", "erinnerung", "telefon"], a: "Typischer Einstieg ist die Terminbuchung: Kunden buchen online, Bestätigung und Erinnerung laufen automatisch – niemand muss ständig ans Telefon." },
+    { k: ["website", "webseite", "webdesign", "homepage", "landingpage"], a: "Ja. Wir bauen schnelle, mobil-optimierte Seiten, die aus Besuchern Anfragen machen – sauber aufgesetzt und einfach zu pflegen." },
+    { k: ["ads", "werbung", "google", "linkedin", "marketing", "kampagne", "sichtbar"], a: "Wir schalten Google Ads und LinkedIn Ads für lokale Betriebe – mit klarem Blick auf die Kosten pro Anfrage." },
+    { k: ["für wen", "fur wen", "zielgruppe", "branche", "handwerk", "studio", "passt das", "praxis", "salon"], a: "Für kleine und mittelständische Betriebe vor Ort: Handwerk, Nagel- und Kosmetikstudios, Praxen, Salons – überall dort, wo Termine und Anfragen noch am Telefon hängen." },
+    { k: ["dauer", "wie lange", "wie schnell", "zeitraum"], a: "Die meisten ersten Automatisierungen stehen in ein bis zwei Wochen." },
+    { k: ["wer seid", "wer ist", "team", "gründer", "grunder", "dahinter"], a: "EAN Agency wird von drei Gründern geführt: Eduard, Artjom und Nizar. Das „EAN“ sind unsere Initialen." },
+    { k: ["kontakt", "erreichen", "anrufen", "melden", "email", "e-mail", "mail"], a: "Am schnellsten über das Formular hier – oder direkt an aiagencyean@outlook.com.", lead: true },
+    { k: ["anfrage", "offerte", "interesse", "zusammenarbeit", "beauftragen", "buchen", "angebot senden"], a: "Gern. Fülls hier kurz aus – Name, E-Mail und was du brauchst. Wir melden uns zeitnah.", lead: true }
+  ];
+  var GREET = "Hi! Ich bin der EAN-Assistent. Frag mich zu Leistungen, Ablauf oder Preisen – oder schick uns direkt eine Anfrage.";
+  var FALLBACK = "Das kann ich hier nicht sicher beantworten. Schreib es am besten kurz ins Anfrage-Formular – wir melden uns persönlich.";
+
+  var log = document.getElementById("chatLog");
+  var chips = document.getElementById("chatChips");
+  var askForm = document.getElementById("askForm");
+  var askInput = document.getElementById("askInput");
+  var leadForm = document.getElementById("leadForm");
+  var leadMsg = document.getElementById("leadMessage");
+  var leadStatus = document.getElementById("leadStatus");
+  var leadBtn = document.getElementById("leadBtn");
+  if (!log || !leadForm) return;
+
+  function fld(n) { return leadForm.querySelector('[name="' + n + '"]'); }
+  var lastUser = "";
+
+  function add(text, who, withJump) {
+    var d = document.createElement("div");
+    d.className = "msg " + who;
+    d.textContent = text;
+    if (withJump) {
+      d.appendChild(document.createElement("br"));
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "jump"; b.textContent = "→ Anfrage ausfüllen";
+      b.addEventListener("click", function () { toLead(lastUser); });
+      d.appendChild(b);
+    }
+    log.appendChild(d);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function answer(q) {
+    lastUser = q;
+    var s = " " + q.toLowerCase() + " ";
+    var best = null, bestScore = 0;
+    KB.forEach(function (item) {
+      var score = 0;
+      item.k.forEach(function (kw) { if (s.indexOf(kw) !== -1) score += kw.length; });
+      if (score > bestScore) { bestScore = score; best = item; }
+    });
+    setTimeout(function () {
+      if (best) add(best.a, "bot", !!best.lead);
+      else add(FALLBACK, "bot", true);
+    }, 240);
+  }
+
+  function toLead(prefill) {
+    if (prefill && leadMsg && !leadMsg.value.trim()) leadMsg.value = prefill;
+    document.getElementById("assistent").scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(function () { fld("name").focus(); }, 480);
+  }
+
+  add(GREET, "bot");
+  ["Was kostet das?", "Wie läuft ein Projekt ab?", "Macht ihr auch Websites?", "Ich will eine Anfrage senden"].forEach(function (t) {
+    var c = document.createElement("button");
+    c.type = "button"; c.className = "chip"; c.textContent = t;
+    c.addEventListener("click", function () { add(t, "user"); answer(t); });
+    chips.appendChild(c);
+  });
+
+  askForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var q = askInput.value.trim();
+    if (!q) return;
+    add(q, "user");
+    askInput.value = "";
+    answer(q);
+  });
+
+  leadForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (fld("botcheck").checked) return;
+    var data = {
+      name: fld("name").value.trim(),
+      email: fld("email").value.trim(),
+      company: fld("company").value.trim(),
+      message: fld("message").value.trim()
+    };
+    if (!data.name || !data.email || !data.message) return;
+
+    leadBtn.disabled = true;
+    leadStatus.className = "assist__status";
+    leadStatus.textContent = "Wird gesendet …";
+
+    function ok(demo) {
+      leadStatus.className = "assist__status ok";
+      leadStatus.textContent = "Deine Anfrage ist raus. Wir melden uns bei dir unter " + data.email +
+        ". Eine Bestätigung liegt gleich in deinem Postfach." +
+        (demo ? "  (Demo – es wurde noch keine echte E-Mail verschickt: Zugangsschlüssel fehlt.)" : "");
+      if (!demo) leadForm.reset();
+      leadBtn.disabled = false;
+    }
+    function fail() {
+      leadStatus.className = "assist__status err";
+      leadStatus.textContent = "Senden hat nicht geklappt. Schreib uns bitte direkt an aiagencyean@outlook.com.";
+      leadBtn.disabled = false;
+    }
+
+    if (!WEB3FORMS_KEY) { setTimeout(function () { ok(true); }, 700); return; }
+
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: "Neue Anfrage über die Website – " + data.name,
+        from_name: "EAN Agency Website",
+        name: data.name,
+        email: data.email,
+        Betrieb: data.company || "–",
+        message: data.message
+      })
+    }).then(function (r) { return r.json(); })
+      .then(function (j) { j && j.success ? ok(false) : fail(); })
+      .catch(fail);
+  });
+})();
+</script>

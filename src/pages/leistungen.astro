@@ -1,0 +1,90 @@
+---
+import Sub from "../layouts/Sub.astro";
+
+const services = [
+  {
+    id: "ki-automatisierung",
+    tag: "01 — Automation",
+    title: "KI-Automatisierung",
+    intro: "Wiederkehrende Abläufe laufen von selbst – umgesetzt mit Make.com. Weniger Telefon, weniger Handarbeit, kein verpasster Auftrag.",
+    includes: [
+      "Online-Terminbuchung mit automatischer Bestätigung und Erinnerung",
+      "Anfragen aus Formular, E-Mail und Telefon an einer Stelle bündeln",
+      "Automatische Nachfass-Nachrichten und Angebots-Follow-ups",
+      "Bewertungen einsammeln nach abgeschlossenem Auftrag",
+      "Anbindung an Ihre bestehenden Tools (Kalender, E-Mail, CRM)"
+    ],
+    fit: "Für Betriebe, bei denen Termine und Anfragen heute per Zettel und Rückruf laufen."
+  },
+  {
+    id: "websites",
+    tag: "02 — Web",
+    title: "Websites",
+    intro: "Eine schnelle, hochwertige Seite, die auf dem Handy überzeugt und aus Besuchern echte Anfragen macht – sauber gebaut und einfach zu pflegen.",
+    includes: [
+      "Mobil zuerst, in Sekunden geladen",
+      "Klarer Aufbau, der zur Anfrage führt (Buchung, Formular, Anruf)",
+      "Auffindbar bei Google (technisches SEO, Struktur, Tempo)",
+      "Inhalte, die Sie selbst ändern können",
+      "Design von reduziert bis auffällig – siehe Beispiele"
+    ],
+    fit: "Für Betriebe ohne Website oder mit einer Seite, die keine Anfragen bringt."
+  },
+  {
+    id: "ki-assistenten",
+    tag: "03 — Assistent",
+    title: "KI-Assistenten",
+    intro: "Ein Chat-Assistent auf Ihrer Website beantwortet Kundenfragen rund um die Uhr und nimmt Anfragen strukturiert entgegen.",
+    includes: [
+      "Antworten auf die häufigsten Fragen (Leistungen, Preise, Öffnungszeiten, Anfahrt)",
+      "Trainiert auf Ihre Inhalte – keine erfundenen Auskünfte",
+      "Übergabe an ein Anfrageformular oder direkt an Sie",
+      "Auswertung, welche Fragen wie oft kommen",
+      "Auch als Assistent für eingehende Nachrichten und E-Mails"
+    ],
+    fit: "Für Betriebe mit vielen gleichen Rückfragen und wenig Zeit am Telefon."
+  },
+  {
+    id: "marketing-ads",
+    tag: "04 — Ads",
+    title: "Marketing & Ads",
+    intro: "Werbung, die zu lokalen Betrieben passt: gefunden werden bei Google, gezielt ansprechen über LinkedIn – mit klarem Blick auf die Kosten pro Anfrage.",
+    includes: [
+      "Google Ads: Suchanzeigen für Leute, die aktiv nach Ihrer Leistung suchen",
+      "Google Maps / lokale Anzeigen für Ihr Einzugsgebiet",
+      "LinkedIn Ads für B2B-Zielgruppen und Fachkräfte-Ansprache",
+      "Passende Landingpage je Kampagne – nicht einfach die Startseite",
+      "Conversion-Tracking: Sie sehen, was eine Anfrage kostet",
+      "Monatliche Auswertung und Nachsteuern von Budget und Anzeigen"
+    ],
+    fit: "Für Betriebe, die planbar mehr Anfragen wollen und ein Werbebudget ab ca. 300–500 € / Monat einsetzen können.",
+    note: "Das Anzeigenbudget zahlen Sie direkt an Google bzw. LinkedIn. Wir berechnen die Einrichtung und Betreuung."
+  }
+];
+---
+<Sub
+  title="Leistungen"
+  heading="Leistungen"
+  lead="Vier Bausteine – einzeln oder als komplettes System. Alle mit Festpreis pro Projekt."
+>
+  {services.map((s) => (
+    <section class="svc-sec" id={s.id}>
+      <span class="tag">{s.tag}</span>
+      <h2>{s.title}</h2>
+      <p>{s.intro}</p>
+
+      <h3>Das ist dabei</h3>
+      <ul>{s.includes.map((it) => <li>{it}</li>)}</ul>
+
+      <h3>Für wen</h3>
+      <p style="margin-top:0">{s.fit}</p>
+
+      {s.note && <p class="demo-note" style="text-transform:none;letter-spacing:0;opacity:1">{s.note}</p>}
+
+      <div class="cta-strip">
+        <a class="btn" href="/#kontakt">Erstgespräch vereinbaren</a>
+        <p>Kostenlos und unverbindlich – wir sagen konkret, was das für Ihren Betrieb heißt.</p>
+      </div>
+    </section>
+  ))}
+</Sub>

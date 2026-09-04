@@ -1,0 +1,143 @@
+---
+import Sub from "../layouts/Sub.astro";
+---
+<Sub
+  title="KI-Terminkalender"
+  heading="KI-Terminkalender"
+  lead="Leistung wählen, freien Termin anklicken. Belegte Zeiten werden automatisch übersprungen – so entstehen keine Doppelbuchungen."
+>
+  <div class="card">
+    <div class="cal__svc" id="calSvc" role="group" aria-label="Leistung wählen"></div>
+    <div class="cal__grid" id="calGrid"></div>
+    <p class="cal__msg" id="calMsg"></p>
+    <form class="cal__confirm" id="calConfirm">
+      <label>Name <input type="text" name="name" required /></label>
+      <label>E-Mail <input type="email" name="email" required /></label>
+      <button class="btn btn--sm" type="submit">Termin bestätigen</button>
+    </form>
+    <div class="cal__done" id="calDone">
+      <p style="margin:0"><b id="calDoneText">Termin vorgemerkt.</b></p>
+      <p class="fine" id="calDoneFine">Eine Bestätigung geht an Ihre E-Mail.</p>
+      <button class="btn btn--ghost btn--sm" type="button" id="calReset">Neuen Termin</button>
+    </div>
+    <p class="demo-note">Demo – es wird noch kein echter Kalender angebunden und keine Mail verschickt. Live-Version bindet Google Calendar / Cal.com an.</p>
+  </div>
+
+  <div class="cta-strip">
+    <a class="btn" href="/#kontakt">So etwas für meinen Betrieb</a>
+    <p>Wir richten Ihre Online-Terminbuchung in ein bis zwei Wochen ein.</p>
+  </div>
+
+  <script is:inline>
+  (function () {
+    var SERVICES = [
+      { id: "beratung", name: "Beratungsgespräch", dur: "30 Min" },
+      { id: "vorort", name: "Vor-Ort-Termin", dur: "60 Min" },
+      { id: "rueckruf", name: "Rückruf", dur: "15 Min" }
+    ];
+    var TIMES = ["09:00", "10:30", "12:00", "13:30", "15:00", "16:30"];
+    var DN = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+
+    var svcWrap = document.getElementById("calSvc");
+    var grid = document.getElementById("calGrid");
+    var msg = document.getElementById("calMsg");
+    var cForm = document.getElementById("calConfirm");
+    var done = document.getElementById("calDone");
+    var doneText = document.getElementById("calDoneText");
+    var doneFine = document.getElementById("calDoneFine");
+    var reset = document.getElementById("calReset");
+    if (!grid) return;
+
+    var days = weekdays(5);
+    var booked = {};
+    var curSvc = SERVICES[0].id;
+    var sel = null;
+
+    function weekdays(n) {
+      var out = [], d = new Date(); d.setHours(0, 0, 0, 0);
+      while (out.length < n) { d.setDate(d.getDate() + 1); var w = d.getDay(); if (w !== 0 && w !== 6) out.push(new Date(d)); }
+      return out;
+    }
+    function fmt(d) { return DN[d.getDay()] + " " + d.getDate() + "."; }
+    function blocked(di, ti) {
+      if (booked[di + "-" + ti]) return true;
+      var s = di * 7 + ti * 3 + curSvc.length * 2;
+      return s % 5 === 0 || s % 7 === 0;
+    }
+    function nextFree(fromDi, fromTi) {
+      var tot = days.length * TIMES.length, start = fromDi * TIMES.length + fromTi;
+      for (var k = 1; k <= tot; k++) {
+        var idx = (start + k) % tot, di = Math.floor(idx / TIMES.length), ti = idx % TIMES.length;
+        if (!blocked(di, ti)) return { di: di, ti: ti, day: days[di], time: TIMES[ti] };
+      }
+      return null;
+    }
+    function svcObj() { for (var i = 0; i < SERVICES.length; i++) if (SERVICES[i].id === curSvc) return SERVICES[i]; }
+
+    function renderSvc() {
+      svcWrap.innerHTML = "";
+      SERVICES.forEach(function (s) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.textContent = s.name + " · " + s.dur;
+        b.setAttribute("aria-pressed", s.id === curSvc ? "true" : "false");
+        b.addEventListener("click", function () {
+          curSvc = s.id; sel = null; cForm.classList.remove("on"); done.classList.remove("on"); msg.textContent = "";
+          renderSvc(); renderGrid();
+        });
+        svcWrap.appendChild(b);
+      });
+    }
+    function pick(o) {
+      sel = o;
+      msg.textContent = "Gewählt: " + fmt(o.day) + " um " + o.time + " Uhr.";
+      cForm.classList.add("on"); done.classList.remove("on");
+      renderGrid();
+    }
+    function renderGrid() {
+      grid.innerHTML = "";
+      days.forEach(function (d, di) {
+        var col = document.createElement("div"); col.className = "cal__day";
+        var h = document.createElement("h4"); h.textContent = fmt(d); col.appendChild(h);
+        TIMES.forEach(function (t, ti) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          var isB = blocked(di, ti);
+          btn.className = "slot" + (isB ? " is-blocked" : "");
+          btn.textContent = t;
+          btn.setAttribute("aria-pressed", sel && sel.di === di && sel.ti === ti ? "true" : "false");
+          btn.addEventListener("click", function () {
+            if (isB) {
+              var nf = nextFree(di, ti);
+              if (nf) { pick(nf); msg.textContent = "Belegt – nächster freier Termin: " + fmt(nf.day) + " um " + nf.time + " Uhr. Unten bestätigen."; }
+              else msg.textContent = "In diesen Tagen ist leider alles belegt.";
+              return;
+            }
+            pick({ di: di, ti: ti, day: d, time: t });
+          });
+          col.appendChild(btn);
+        });
+        grid.appendChild(col);
+      });
+    }
+
+    cForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!sel) return;
+      var nm = cForm.querySelector('[name="name"]').value.trim();
+      var em = cForm.querySelector('[name="email"]').value.trim();
+      if (!nm || !em) return;
+      booked[sel.di + "-" + sel.ti] = true;
+      doneText.textContent = "✓ Vorgemerkt: " + svcObj().name + " · " + fmt(sel.day) + ", " + sel.time + " Uhr";
+      doneFine.textContent = "Bestätigung an " + em + " — Demo, es wird noch nichts real verschickt.";
+      cForm.classList.remove("on"); cForm.reset();
+      done.classList.add("on");
+      sel = null;
+      renderGrid();
+    });
+    reset.addEventListener("click", function () { done.classList.remove("on"); msg.textContent = ""; renderGrid(); });
+
+    renderSvc(); renderGrid();
+  })();
+  </script>
+</Sub>

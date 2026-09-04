@@ -1,0 +1,39 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="Impressum – EAN Agency">
+  <Header />
+  <main class="mx-auto max-w-3xl px-6 py-24">
+    <h1 class="text-3xl font-bold tracking-tight">Impressum</h1>
+
+    <div class="mt-6 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
+      <strong>Noch auszufüllen.</strong> Ein Impressum ist in Deutschland gesetzlich
+      Pflicht (§ 5 DDG / § 18 MStV). Vor dem Live-Gang müssen hier echte Angaben
+      stehen: vollständige Namen, ladungsfähige Anschrift, E-Mail, Telefonnummer,
+      ggf. Rechtsform &amp; Vertretungsberechtigte, USt-IdNr. bzw. Kleinunternehmer-Hinweis.
+    </div>
+
+    <div class="mt-8 space-y-4 text-ink-soft">
+      <div>
+        <h2 class="font-semibold text-ink">Angaben gemäß § 5 DDG</h2>
+        <p>EAN Agency<br />[Rechtsform, z. B. GbR]<br />[Straße Hausnummer]<br />[PLZ Ort]</p>
+      </div>
+      <div>
+        <h2 class="font-semibold text-ink">Vertreten durch</h2>
+        <p>Eduard [Nachname], Artjom [Nachname], Nizar [Nachname]</p>
+      </div>
+      <div>
+        <h2 class="font-semibold text-ink">Kontakt</h2>
+        <p>E-Mail: aiagencyean@outlook.com<br />Telefon: [Nummer]</p>
+      </div>
+      <div>
+        <h2 class="font-semibold text-ink">Umsatzsteuer</h2>
+        <p>[USt-IdNr. gemäß § 27 a UStG] oder [Hinweis Kleinunternehmerregelung § 19 UStG]</p>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>

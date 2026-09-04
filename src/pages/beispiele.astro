@@ -1,0 +1,78 @@
+---
+import Sub from "../layouts/Sub.astro";
+
+const demos = [
+  {
+    href: "/beispiele/handwerk",
+    tag: "Handwerk",
+    name: "Brandt Elektrotechnik",
+    desc: "Seriös, vertrauenswürdig, auf Terminanfragen ausgelegt. Für Meisterbetriebe im Handwerk.",
+    style: "Klar · Stahlblau · Sans-Serif",
+    c1: "#0f2942", c2: "#2f6fb3"
+  },
+  {
+    href: "/beispiele/studio",
+    tag: "Beauty",
+    name: "LUMA Studio",
+    desc: "Ruhig, edel, viel Weißraum. Online-Buchung und Preisliste im Vordergrund. Für Nagel- & Kosmetikstudios.",
+    style: "Elegant · Blush & Gold · Serif",
+    c1: "#efe2db", c2: "#b98a7d"
+  },
+  {
+    href: "/beispiele/gastro",
+    tag: "Gastronomie",
+    name: "Trattoria da Marco",
+    desc: "Warm, appetitlich, mit Speisekarte und Reservierung. Für Restaurants, Cafés und Bars.",
+    style: "Warm · Waldgrün & Terrakotta · Serif",
+    c1: "#1d2b21", c2: "#c56a3f"
+  },
+  {
+    href: "/_preview.html",
+    tag: "Design-Konzept",
+    name: "Kosmos",
+    desc: "Dunkel, cinematisch, mit Weltraum-Animationen und Intro-Moment. Für Marken, die auffallen wollen.",
+    style: "Auffällig · Schwarz & Gold · Display",
+    c1: "#0a1315", c2: "#e8b23a"
+  }
+];
+---
+<Sub
+  title="Webdesign-Beispiele"
+  heading="Beispiele"
+  lead="Durchklickbare Demo-Websites für typische Betriebe. Jede zeigt Aufbau, Tempo und Terminbuchung – so würde es für Ihren Betrieb aussehen."
+>
+  <div class="gal">
+    {demos.map((d) => (
+      <a class="gal__card" href={d.href}>
+        <div class="gal__prev" style={`background:linear-gradient(135deg, ${d.c1}, ${d.c2})`}>
+          <span class="gal__badge">{d.tag}</span>
+        </div>
+        <div class="gal__body">
+          <h2>{d.name}</h2>
+          <p>{d.desc}</p>
+          <span class="gal__style">{d.style}</span>
+          <span class="gal__go">Demo öffnen →</span>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <div class="cta-strip">
+    <a class="btn" href="/#kontakt">Website für meinen Betrieb</a>
+    <p>Wir bauen Ihre Seite in ein bis zwei Wochen – im Stil, der zu Ihnen passt.</p>
+  </div>
+
+  <style is:inline>
+    .gal { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; }
+    .gal__card { border: 1px solid var(--line); background: var(--void-2); display: flex; flex-direction: column; transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), border-color 0.25s; }
+    .gal__card:hover { transform: translateY(-6px); border-color: var(--line-2); }
+    .gal__prev { position: relative; aspect-ratio: 16 / 9; display: flex; align-items: flex-end; padding: 1rem; }
+    .gal__badge { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; background: rgba(0,0,0,0.45); color: #fff; padding: 0.3rem 0.6rem; backdrop-filter: blur(4px); }
+    .gal__body { padding: clamp(1.3rem, 3vw, 1.9rem); display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+    .gal__body h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; letter-spacing: -0.02em; margin: 0; }
+    .gal__body p { margin: 0; color: var(--bone-dim); font-size: 0.92rem; flex: 1; }
+    .gal__style { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bone-dim); }
+    .gal__go { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-top: 0.4rem; }
+    @media (max-width: 680px) { .gal { grid-template-columns: 1fr; } }
+  </style>
+</Sub>

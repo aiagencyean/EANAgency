@@ -1,0 +1,40 @@
+---
+const links = [
+  { href: "#leistungen", label: "Leistungen" },
+  { href: "#zielgruppe", label: "Für wen" },
+  { href: "#ablauf", label: "Ablauf" },
+  { href: "#team", label: "Team" },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <a href="#top" class="flex items-center gap-2 font-bold tracking-tight">
+      <span
+        class="grid h-8 w-8 place-items-center rounded-lg bg-ink text-sm font-bold text-white"
+        >EAN</span
+      >
+      <span class="text-lg">EAN Agency</span>
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            class="text-sm font-medium text-ink-soft transition hover:text-ink"
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a
+      href="#kontakt"
+      class="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700"
+    >
+      Erstgespräch
+    </a>
+  </div>
+</header>
