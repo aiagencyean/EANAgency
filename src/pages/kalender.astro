@@ -20,7 +20,7 @@ import Sub from "../layouts/Sub.astro";
       <p class="fine" id="calDoneFine">Eine Bestätigung geht an Ihre E-Mail.</p>
       <button class="btn btn--ghost btn--sm" type="button" id="calReset">Neuen Termin</button>
     </div>
-    <p class="demo-note">Demo – hier wird noch kein echter Kalender angebunden und keine Mail verschickt. In der Live-Version läuft das an Ihren bestehenden Kalender.</p>
+    <p class="demo-note">Demo-Ansicht – Ihre Anfrage erreicht uns per E-Mail, wir bestätigen den Termin persönlich. In der fertigen Version bucht sich der Termin direkt in Ihren Kalender.</p>
   </div>
 
   <div class="cta-strip">
@@ -121,17 +121,34 @@ import Sub from "../layouts/Sub.astro";
       });
     }
 
+    var WEB3FORMS_KEY = "d4fb3d81-fe63-447e-ad79-75efd0cb11f8";
+
     cForm.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!sel) return;
       var nm = cForm.querySelector('[name="name"]').value.trim();
       var em = cForm.querySelector('[name="email"]').value.trim();
       if (!nm || !em) return;
+      var svcName = svcObj().name, when = fmt(sel.day) + ", " + sel.time + " Uhr";
       booked[sel.di + "-" + sel.ti] = true;
-      doneText.textContent = "✓ Vorgemerkt: " + svcObj().name + " · " + fmt(sel.day) + ", " + sel.time + " Uhr";
-      doneFine.textContent = "Bestätigung an " + em + " — Demo, es wird noch nichts real verschickt.";
+      doneText.textContent = "✓ Angefragt: " + svcName + " · " + when;
+      doneFine.textContent = "Wir bestätigen den Termin per E-Mail an " + em + ".";
       cForm.classList.remove("on"); cForm.reset();
       done.classList.add("on");
+
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: "Terminanfrage über die Website – " + nm,
+          from_name: "EAN Agency Website",
+          name: nm, email: em,
+          Leistung: svcName, Wunschtermin: when,
+          message: nm + " möchte einen Termin: " + svcName + " am " + when + "."
+        })
+      }).catch(function () {});
+
       sel = null;
       renderGrid();
     });
