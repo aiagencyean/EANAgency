@@ -385,6 +385,27 @@
   @media (max-width: 820px) { .foot__grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 480px) { .foot__grid { grid-template-columns: 1fr; gap: 1.8rem; } }
 
+  /* ============ pakete / preise ============ */
+  .pak { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; align-items: start; }
+  .pak__card { position: relative; border: 1px solid var(--line); background: var(--void-2); padding: clamp(1.6rem, 3.5vw, 2.3rem); display: flex; flex-direction: column; gap: 1rem; }
+  .pak__card.feat { border-color: var(--gold); box-shadow: 0 0 70px -34px var(--gold-bright); }
+  .pak__badge { position: absolute; top: 0; right: 1.4rem; transform: translateY(-50%); background: var(--gold); color: var(--void); font-family: var(--font-mono); font-size: 0.54rem; letter-spacing: 0.16em; text-transform: uppercase; padding: 0.32rem 0.65rem; }
+  .pak__tag { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bone-dim); }
+  .pak__name { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; letter-spacing: -0.02em; margin: 0; }
+  .pak__price { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 4vw, 2.4rem); letter-spacing: -0.03em; color: var(--gold); line-height: 1.05; }
+  .pak__price span { font-size: 0.85rem; color: var(--bone-dim); font-weight: 400; }
+  .pak__mo { font-family: var(--font-mono); font-size: 0.72rem; color: var(--bone); border-block: 1px solid var(--line); padding: 0.7rem 0; }
+  .pak__mo span { color: var(--bone-dim); }
+  .pak ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; flex: 1; }
+  .pak li { display: flex; gap: 0.6rem; font-size: 0.9rem; color: var(--bone); }
+  .pak li::before { content: "✦"; color: var(--gold); font-size: 0.68em; line-height: 1.75; }
+  .pak li.muted { color: var(--bone-dim); }
+  .pak li.muted::before { content: "·"; color: var(--bone-dim); }
+  .pak__card .btn { justify-content: center; }
+  .pak__foot { margin-top: 1.8rem; font-size: 0.92rem; color: var(--bone-dim); max-width: 70ch; }
+  .pak__foot b { color: var(--bone); }
+  @media (max-width: 900px) { .pak { grid-template-columns: 1fr; } .pak__badge { right: auto; left: 1.4rem; } }
+
   @media (prefers-reduced-motion: reduce) {
     #intro { display: none; }
     #embers { display: none; }
@@ -409,9 +430,9 @@
     <a class="brand" href="#top"><b>EAN</b> AGENCY</a>
     <nav>
       <a href="#leistungen">Leistungen</a>
+      <a href="#pakete">Preise</a>
       <a href="#demo">Ausprobieren</a>
       <a href="/beispiele">Beispiele</a>
-      <a href="#ablauf">Ablauf</a>
       <a href="#faq">Fragen</a>
     </nav>
     <a class="btn btn--sm" href="#kontakt">Erstgespräch</a>
@@ -428,7 +449,7 @@
       <p class="hero__sub">KI-gestützte Websites, Terminsysteme und Assistenten – gebaut für Betriebe, die vorne stehen wollen.</p>
       <div class="hero__cta">
         <a class="btn" href="#kontakt">Erstgespräch vereinbaren</a>
-        <a class="tlink" href="#demo">Live ausprobieren <i>→</i></a>
+        <a class="tlink" href="#pakete">Pakete &amp; Preise <i>→</i></a>
       </div>
       <div class="hero__meta">
         <div><b data-count="4">4</b><span>Leistungsbereiche</span></div>
@@ -447,7 +468,7 @@
     <div class="rows">
       <a class="row rv" href="/leistungen#ki-automatisierung">
         <span class="n">01</span>
-        <div><h3>KI-Automatisierung</h3><p>Terminbuchung, Anfragen, Bestätigungen, Erinnerungen und wiederkehrende Abläufe – automatisiert mit Make.com.</p></div>
+        <div><h3>KI-Automatisierung</h3><p>Terminbuchung, Anfragen, Bestätigungen, Erinnerungen und wiederkehrende Abläufe – laufen ab jetzt von selbst.</p></div>
         <span class="go">Details <i>→</i></span>
       </a>
       <a class="row rv" href="/leistungen#websites">
@@ -555,15 +576,72 @@
     </div>
   </section>
 
-  <section class="sec wrap" id="faq">
+  <section class="sec wrap" id="pakete">
     <div class="sec__head rv">
       <span class="n">06</span>
+      <div><h2>Pakete &amp; Preise.</h2><p>Festpreis pro Projekt, nach einem kurzen Erstgespräch. Die Monatspakete sind monatlich kündbar.</p></div>
+    </div>
+    <div class="pak rv">
+      <div class="pak__card">
+        <span class="pak__tag">Der Einstieg</span>
+        <h3 class="pak__name">Fundament</h3>
+        <div class="pak__price">ab 2.900&nbsp;€ <span>einmalig</span></div>
+        <div class="pak__mo">+ 39&nbsp;€ / Monat <span>· Hosting &amp; Pflege</span></div>
+        <ul>
+          <li>Hochwertige Website, mobil-optimiert</li>
+          <li>Auf Anfragen ausgelegt, bei Google auffindbar</li>
+          <li>Online-Terminbuchung</li>
+          <li>Automatische Bestätigung &amp; Erinnerung</li>
+          <li>Inhalte selbst änderbar</li>
+        </ul>
+        <a class="btn" href="#kontakt">Erstgespräch</a>
+      </div>
+
+      <div class="pak__card feat">
+        <span class="pak__badge">Am beliebtesten</span>
+        <span class="pak__tag">Website + Automatisierung + Assistent</span>
+        <h3 class="pak__name">Automatik</h3>
+        <div class="pak__price">ab 4.900&nbsp;€ <span>einmalig</span></div>
+        <div class="pak__mo">+ 149&nbsp;€ / Monat <span>· Betreuung</span></div>
+        <ul>
+          <li>Alles aus <b>Fundament</b></li>
+          <li>KI-Assistent auf der Website</li>
+          <li>Anfragen aus allen Kanälen gebündelt</li>
+          <li>Automatische Nachfass- &amp; Bewertungs-Mails</li>
+          <li>Anbindung an Ihren Kalender &amp; Ihre E-Mail</li>
+          <li>Laufende Anpassungen inklusive</li>
+        </ul>
+        <a class="btn" href="#kontakt">Erstgespräch</a>
+      </div>
+
+      <div class="pak__card">
+        <span class="pak__tag">Für mehr Kunden</span>
+        <h3 class="pak__name">Wachstum</h3>
+        <div class="pak__price">ab 6.900&nbsp;€ <span>einmalig</span></div>
+        <div class="pak__mo">+ ab 490&nbsp;€ / Monat <span>· Ads-Betreuung</span></div>
+        <ul>
+          <li>Alles aus <b>Automatik</b></li>
+          <li>Google Ads &amp; LinkedIn Ads eingerichtet</li>
+          <li>Eigene Landingpage je Kampagne</li>
+          <li>Conversion-Tracking</li>
+          <li>Monatliche Auswertung &amp; Optimierung</li>
+          <li class="muted">Werbebudget separat, direkt an Google / LinkedIn</li>
+        </ul>
+        <a class="btn" href="#kontakt">Erstgespräch</a>
+      </div>
+    </div>
+    <p class="pak__foot rv"><b>Nur ein Baustein?</b> Auch einzeln buchbar – Automatisierung ab 890&nbsp;€, KI-Assistent ab 690&nbsp;€, Website ab 1.900&nbsp;€. Alle Preise netto zzgl. USt. Der genaue Festpreis steht nach dem Erstgespräch – vorher wissen Sie, in welchem Rahmen Sie sich bewegen.</p>
+  </section>
+
+  <section class="sec wrap" id="faq">
+    <div class="sec__head rv">
+      <span class="n">07</span>
       <div><h2>Häufige Fragen.</h2><p>Was Kunden vor dem Erstgespräch meistens wissen wollen.</p></div>
     </div>
     <div class="faq rv">
       <details>
         <summary>Was kostet das?</summary>
-        <p>Festpreis pro Projekt – kein Stundensatz, keine Überraschung. Den genauen Preis nennen wir nach einem kurzen, kostenlosen Erstgespräch. Kleinere Automatisierungen sind deutlich günstiger als ein neues Website-Projekt; wir sagen vorab, in welchem Rahmen Sie sich bewegen.</p>
+        <p>Festpreis pro Projekt – kein Stundensatz, keine Überraschung. Die Pakete sehen Sie oben: Fundament ab 2.900&nbsp;€, Automatik ab 4.900&nbsp;€, Wachstum ab 6.900&nbsp;€, jeweils plus ein kleines Monatspaket. Einzelne Bausteine sind günstiger. Den genauen Festpreis nennen wir nach einem kurzen, kostenlosen Erstgespräch.</p>
       </details>
       <details>
         <summary>Wie lange dauert die Umsetzung?</summary>
@@ -629,6 +707,7 @@
         <a href="/leistungen#websites">Websites</a>
         <a href="/leistungen#ki-assistenten">KI-Assistenten</a>
         <a href="/leistungen#marketing-ads">Marketing &amp; Ads</a>
+        <a href="#pakete">Pakete &amp; Preise</a>
       </div>
       <div>
         <h4>Ausprobieren</h4>
