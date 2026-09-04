@@ -17,7 +17,7 @@ import Sub from "../layouts/Sub.astro";
     </form>
     <div class="cal__done" id="calDone">
       <p style="margin:0"><b id="calDoneText">Termin vorgemerkt.</b></p>
-      <p class="fine" id="calDoneFine">Eine Bestätigung geht an Ihre E-Mail.</p>
+      <p class="fine" id="calDoneFine">Wir melden uns per E-Mail.</p>
       <button class="btn btn--ghost btn--sm" type="button" id="calReset">Neuen Termin</button>
     </div>
     <p class="demo-note">Demo-Ansicht – Ihre Anfrage erreicht uns per E-Mail, wir bestätigen den Termin persönlich. In der fertigen Version bucht sich der Termin direkt in Ihren Kalender.</p>
@@ -132,7 +132,7 @@ import Sub from "../layouts/Sub.astro";
       var svcName = svcObj().name, when = fmt(sel.day) + ", " + sel.time + " Uhr";
       booked[sel.di + "-" + sel.ti] = true;
       doneText.textContent = "✓ Angefragt: " + svcName + " · " + when;
-      doneFine.textContent = "Wir bestätigen den Termin per E-Mail an " + em + ".";
+      doneFine.textContent = "Wir prüfen den Wunschtermin und bestätigen ihn per E-Mail an " + em + ".";
       cForm.classList.remove("on"); cForm.reset();
       done.classList.add("on");
 

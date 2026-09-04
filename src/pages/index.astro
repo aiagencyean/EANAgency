@@ -688,7 +688,7 @@
       <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <button class="btn" type="submit" id="leadBtn">Anfrage abschicken</button>
       <p class="frm__status" id="leadStatus" role="status"></p>
-      <p class="frm__note">Ihre Nachricht geht an aiagencyean@outlook.com. Sie erhalten eine Bestätigung per E-Mail.</p>
+      <p class="frm__note">Ihre Nachricht geht direkt an unser Team. Wir melden uns innerhalb eines Werktags.</p>
     </form>
   </section>
 </main>
@@ -843,7 +843,7 @@
     leadStatus.className = "frm__status"; leadStatus.textContent = "Wird gesendet …";
     function ok(demo) {
       leadStatus.className = "frm__status ok";
-      leadStatus.textContent = "Ihre Anfrage ist raus. Wir melden uns unter " + data.email + ". Eine Bestätigung liegt gleich im Postfach." + (demo ? "  (Demo – noch keine echte E-Mail: Zugangsschlüssel fehlt.)" : "");
+      leadStatus.textContent = "Ihre Anfrage ist raus. Wir melden uns innerhalb eines Werktags unter " + data.email + "." + (demo ? "  (Demo – noch keine echte E-Mail: Zugangsschlüssel fehlt.)" : "");
       if (!demo) lead.reset();
       leadBtn.disabled = false;
     }
